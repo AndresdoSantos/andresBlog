@@ -5,6 +5,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 
 import { Content } from '../../components/Content'
+
 import { client } from '../../services/client'
 
 interface Post {
@@ -34,27 +35,36 @@ export default function PostBySlug({ post }: Post) {
 
       <Content>
         <header className="mt-10">
-          <section className="flex flex-row items-center gap-x-2 mb-10">
-            <div className="p-1 border-2 border-zinc-700 rounded-full">
-              <Image
-                src="https://github.com/AndresdoSantos.png"
-                alt="My profile photo"
-                width={32}
-                height={32}
-                className="rounded-full"
-              />
+          <section className="flex flex-row items-center justify-between mb-10">
+            <div className="flex items-center justify-between">
+              <div className="p-1 border-2 border-zinc-700 dark:border-white rounded-full">
+                <Image
+                  src="https://github.com/AndresdoSantos.png"
+                  alt="My profile photo"
+                  width={32}
+                  height={32}
+                  className="rounded-full"
+                />
+              </div>
+
+              <p className="text-xs mb-0 dark:text-zinc-300 text-zinc-500 ml-2">
+                Written by{' '}
+                <strong className="dark:text-white text-sm font-medium">
+                  {post.createdBy.name}
+                </strong>{' '}
+                in{' '}
+                <strong className="dark:text-white text-sm font-medium">
+                  {format(new Date(post.createdAt), "MMM dd',' yyyy")}
+                </strong>
+              </p>
             </div>
 
-            <p className="text-xs mb-0 text-zinc-500">
-              Written by{' '}
-              <strong className="text-zinc-700 text-sm font-medium">
-                {post.createdBy.name}
-              </strong>{' '}
-              in{' '}
-              <strong className="text-zinc-700 text-sm font-medium">
-                {format(new Date(post.createdAt), "MMM dd',' yyyy")}
-              </strong>
-            </p>
+            {/** <Link
+              href="/"
+              className="flex items-center justify-center w-8 h-8 border rounded-xl shadow-lg transition-[:hover] duration-200 hover:scale-110"
+            >
+              <Icon.X />
+            </Link> */}
           </section>
 
           <h1>{post.title}</h1>
@@ -62,10 +72,16 @@ export default function PostBySlug({ post }: Post) {
           <p>{post.preview}</p>
         </header>
 
-        <article
-          className="mt-10"
-          dangerouslySetInnerHTML={{ __html: post.content.html }}
-        />
+        <div className="flex items-center relative">
+          <button className="fixed left-20">Seta para esquerda</button>
+
+          <article
+            className="mt-10"
+            dangerouslySetInnerHTML={{ __html: post.content.html }}
+          />
+
+          <button className="fixed right-20">Seta para direita</button>
+        </div>
       </Content>
     </>
   )

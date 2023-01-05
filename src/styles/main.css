@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@tailwind variants;
 
 @layer base {
   html {
@@ -8,31 +9,31 @@
     @apply font-['Inter'];
   }
 
+  body {
+    @apply dark:bg-zinc-800 dark:text-white text-zinc-700 bg-white;
+  }
+
   h1 {
-    @apply font-black text-3xl text-zinc-700 mb-10;
+    @apply font-black text-3xl mb-10;
   }
 
   h2 {
-    @apply font-black text-2xl text-zinc-700 mb-10;
+    @apply font-black text-2xl mb-10;
   }
 
   h3 {
-    @apply font-semibold text-xl text-zinc-700 mb-10;
+    @apply font-semibold text-xl mb-10;
   }
 
   p {
-    @apply font-normal text-zinc-700 -tracking-wider mb-10;
-  }
-
-  li {
-    @apply flex before:content-['-'];
+    @apply font-normal text-sm sm:text-base -tracking-wider mb-10;
   }
 
   pre {
-    @apply bg-zinc-100 border p-5 rounded-xl w-full;
+    @apply bg-zinc-100 dark:bg-zinc-800 border dark:border-zinc-700 p-5 rounded-xl h-auto w-full;
   }
 
   code {
-    @apply font-['DM_Mono'] text-sm;
+    @apply font-['DM_Mono'] text-xs sm:text-sm;
   }
 }
