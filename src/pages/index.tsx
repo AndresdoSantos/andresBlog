@@ -111,7 +111,7 @@ export default function Home({ posts }: ServerSideDataProps) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const gqlResponse = await client
+  const response = await client
     .query({
       query: gql`
         query GetAllPosts {
@@ -139,6 +139,6 @@ export const getStaticProps: GetStaticProps = async () => {
     })
 
   return {
-    props: gqlResponse ? gqlResponse.data : {},
+    props: response ? response.data : {},
   }
 }

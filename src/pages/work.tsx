@@ -1,10 +1,10 @@
 import { GetStaticProps } from 'next'
 import { gql } from '@apollo/client'
+import Image from 'next/image'
 
 import { Content } from '../components/Content'
 
 import { client } from '../services/client'
-import Image from 'next/image'
 
 interface ServerSideDataProps {
   work: {
@@ -86,7 +86,7 @@ export default function Work({ work }: ServerSideDataProps) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const { data } = await client.query({
+  const response = await client.query({
     query: gql`
       query GetAllWorks {
         work {
@@ -108,6 +108,6 @@ export const getStaticProps: GetStaticProps = async () => {
     `,
   })
   return {
-    props: data,
+    props: response ? response.data : {},
   }
 }
