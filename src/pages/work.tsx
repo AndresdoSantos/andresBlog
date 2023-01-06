@@ -4,16 +4,23 @@ import { gql } from '@apollo/client'
 import { Content } from '../components/Content'
 
 import { client } from '../services/client'
+import Image from 'next/image'
 
 interface ServerSideDataProps {
   work: {
     id: string
-    companyName: string
-    companyLogo: {
+    name: string
+    logo: {
       url: string
       width: number
       height: number
     }
+    responsibilities: {
+      title: string
+      description: string
+      tags: string[]
+      id: string
+    }[]
   }[]
 }
 
@@ -27,96 +34,53 @@ export default function Work({ work }: ServerSideDataProps) {
       </header>
 
       <nav>
-        <button className="transition-[:hover] duration-300 hover:text-white hover:bg-zinc-900 text-white bg-zinc-900 text-xs font-medium p-3 border border-zinc-700">
+        <button className="transition-[:hover] duration-300 hover:text-white hover:bg-zinc-900 text-white bg-zinc-900 dark:bg-white text-xs font-medium p-3 border border-zinc-700 dark:text-zinc-900">
           DOWNLOAD MY CV
         </button>
-        <button className="text-zinc-800 text-xs border-l-0 font-medium p-3 border border-zinc-700">
+        <button className=" text-xs border-l-0 font-medium p-3 border border-zinc-700">
           {`SEE MY WORK'S AND LEARNING'S`}
         </button>
       </nav>
 
       <ul className="mt-10">
-        <li className="mb-10">
-          <span className="text-zinc-800 font-medium">h4money</span>
+        {work.map((item) => (
+          <li key={item.id} className="mb-10">
+            {item?.logo && (
+              <Image
+                src={item?.logo.url}
+                width={item?.logo.width}
+                height={item?.logo.height}
+                alt=""
+              />
+            )}
 
-          <ul className="list-disc ml-5 mt-5">
-            <li className="marker:text-blue-500">
-              <span className="block text-zinc-800 text-sm font-medium my-5">
-                React Native Developer
-              </span>
+            <span className="block font-medium mt-5">{item.name}</span>
 
-              <span className="text-sm text-zinc-700">
-                Aqui tive a oportunidade de trabalhar com o React Native no
-                desenvolvimento de um aplicativo de gerenciamento financeiro.
-              </span>
-
-              <section className="flex gap-x-2 mt-5">
-                {['react', 'react-native', 'javascript', 'typescript'].map(
-                  (item) => (
-                    <span
-                      key={item}
-                      className="text-xs py-2 px-4 bg-zinc-100 rounded-full"
-                    >
-                      {item}
-                    </span>
-                  ),
-                )}
-              </section>
-            </li>
-          </ul>
-        </li>
-
-        <li className="mb-10">
-          <span className="text-zinc-800 font-medium">Zaal Tecnologia</span>
-
-          {/** <span className="text-xs">18 Mar, 20 - Today</span> */}
-
-          <ul className="list-disc ml-5 mt-5">
-            <li className="marker:text-blue-500">
-              <span className="block text-zinc-800 text-sm font-medium my-5">
-                React Native Developer
-              </span>
-
-              <span className="text-sm text-zinc-700">
-                Aqui tive a oportunidade de trabalhar com o React Native no
-                desenvolvimento de um aplicativo de gerenciamento financeiro.
-              </span>
-
-              <section className="flex gap-x-2 mt-5">
-                {[
-                  'react',
-                  'react-native',
-                  'javascript',
-                  'typescript',
-                  'state managment',
-                  'tailwindcss',
-                  'styled-components',
-                ].map((item) => (
-                  <span
-                    key={item}
-                    className="text-xs py-2 px-4 bg-zinc-100 rounded-full"
-                  >
-                    {item}
+            <ul className="list-disc ml-5 mt-5">
+              {item.responsibilities.map((responsability) => (
+                <li key={responsability.id} className="marker:text-blue-500">
+                  <span className="block text-sm font-medium my-5">
+                    {responsability.title}
                   </span>
-                ))}
-              </section>
-            </li>
-          </ul>
-        </li>
+
+                  <span className="text-sm ">{responsability.description}</span>
+
+                  <section className="flex items-center mt-5">
+                    {responsability.tags.map((item) => (
+                      <span
+                        key={item}
+                        className="first:rounded-l-lg last:border-none border-r dark:border-zinc-700/50 last:rounded-r-lg text-xs py-2 px-4 dark:bg-neutral-800 bg-zinc-100"
+                      >
+                        {item}
+                      </span>
+                    ))}
+                  </section>
+                </li>
+              ))}
+            </ul>
+          </li>
+        ))}
       </ul>
-
-      {/** {work.map((item) => (
-        <div key={item.id}>
-          <p>{item.companyName}</p>
-
-          <Image
-            src={item.companyLogo.url}
-            width={item.companyLogo.width}
-            height={item.companyLogo.height}
-            alt=""
-          />
-        </div>
-      ))} */}
     </Content>
   )
 }
@@ -125,13 +89,19 @@ export const getStaticProps: GetStaticProps = async () => {
   const { data } = await client.query({
     query: gql`
       query GetAllWorks {
-        work(stage: DRAFT) {
+        work {
           id
-          companyName
-          companyLogo {
+          name
+          logo {
             url
             width
             height
+          }
+          responsibilities {
+            title
+            description
+            tags
+            id
           }
         }
       }

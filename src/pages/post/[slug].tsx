@@ -34,7 +34,7 @@ export default function PostBySlug({ post }: Post) {
       </Head>
 
       <Content>
-        <header className="mt-10">
+        <header className="mt-10 border-b dark:border-zinc-700">
           <section className="flex flex-row items-center justify-between mb-10">
             <div className="flex items-center justify-between">
               <div className="p-1 border-2 border-zinc-700 dark:border-white rounded-full">
@@ -58,13 +58,6 @@ export default function PostBySlug({ post }: Post) {
                 </strong>
               </p>
             </div>
-
-            {/** <Link
-              href="/"
-              className="flex items-center justify-center w-8 h-8 border rounded-xl shadow-lg transition-[:hover] duration-200 hover:scale-110"
-            >
-              <Icon.X />
-            </Link> */}
           </section>
 
           <h1>{post.title}</h1>

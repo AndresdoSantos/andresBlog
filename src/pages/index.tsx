@@ -2,13 +2,14 @@ import { gql } from '@apollo/client'
 import { GetStaticProps } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 import clsx from 'clsx'
+import { useRouter } from 'next/router'
 
 import { Content } from '../components/Content'
+import { ToggleTheme } from '../components/ToggleTheme'
 
 import { client } from '../services/client'
-import { useEffect, useState } from 'react'
+import { Logo } from '../components/Logo'
 
 export interface CreatedBy {
   name: string
@@ -26,25 +27,8 @@ export interface ServerSideDataProps {
   }[]
 }
 
-type Theme = 'light' | 'dark'
-
 export default function Home({ posts }: ServerSideDataProps) {
-  const { route, reload } = useRouter()
-
-  const [theme, setTheme] = useState<Theme>('dark')
-
-  const handleChangeTheme = () => {
-    const theme = window.localStorage.getItem('color-theme')
-
-    window.localStorage.setItem(
-      'color-theme',
-      theme === 'light' ? 'dark' : 'light',
-    )
-
-    setTheme(theme as Theme)
-
-    reload()
-  }
+  const { route } = useRouter()
 
   return (
     <>
@@ -56,31 +40,13 @@ export default function Home({ posts }: ServerSideDataProps) {
 
       <Content>
         <header className="flex items-center justify-between mt-10 mb-20">
-          <div className="flex items-center justify-center gap-x-1">
-            <h5 className="bg-zinc-800 dark:bg-white px-2 font-light text-lg dark:text-zinc-900 text-white">
-              ANDRES
-            </h5>{' '}
-            <span className="font-light text-lg">DOSANTOS</span>
-          </div>
-
-          <label className="relative inline-flex items-center cursor-pointer">
-            <input
-              type="checkbox"
-              // onClick={handleChangeTheme}
-              value=""
-              className="sr-only peer"
-            />
-            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-            <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
-              {theme === 'dark' ? 'Light mode' : 'Dark mode'}
-            </span>
-          </label>
+          <Logo />
 
           <section className="flex flex-row items-center gap-x-10">
             <Link
               href="/"
               className={clsx(
-                'hidden sm:flex font-light text-lg hover:text-zinc-900 dark:hover:text-zinc-200',
+                'hidden sm:flex text-sm hover:text-zinc-900 dark:hover:text-zinc-200',
                 {
                   'dark:text-white text-zinc-900': route === '/',
                 },
@@ -92,7 +58,7 @@ export default function Home({ posts }: ServerSideDataProps) {
             <Link
               href="/work"
               className={clsx(
-                'hidden sm:flex font-light text-lg hover:text-zinc-900 dark:hover:text-zinc-200',
+                'hidden sm:flex text-sm hover:text-zinc-900 dark:hover:text-zinc-200',
                 {
                   'text-zinc-900': route === '/work',
                 },
@@ -104,7 +70,7 @@ export default function Home({ posts }: ServerSideDataProps) {
             <Link
               href="/learning"
               className={clsx(
-                'hidden sm:flex font-light text-lg hover:text-zinc-900 dark:hover:text-zinc-200',
+                'hidden sm:flex text-sm hover:text-zinc-900 dark:hover:text-zinc-200',
                 {
                   'text-zinc-900': route === '/work',
                 },
@@ -113,9 +79,7 @@ export default function Home({ posts }: ServerSideDataProps) {
               WHAT AM I STUDYING?
             </Link>
 
-            {/** <button className="flex items-center justify-center w-8 h-8 border rounded-xl shadow-lg transition-[:hover] duration-200 hover:scale-110">
-              <Icon.DotsTree />
-            </button> */}
+            <ToggleTheme />
           </section>
         </header>
 
@@ -127,13 +91,16 @@ export default function Home({ posts }: ServerSideDataProps) {
                   {post.title}
                 </h5>
 
-                {post.tags.map((tag) => (
-                  <button key={tag}>
-                    <span className="text-xs text-blue-500 font-medium mr-2">
-                      {tag}
+                <section className="flex items-center mt-5">
+                  {post.tags.map((item) => (
+                    <span
+                      key={item}
+                      className="first:rounded-l-lg last:border-none border-r dark:border-zinc-700/50 last:rounded-r-lg text-xs py-2 px-4 dark:bg-neutral-800 bg-zinc-100"
+                    >
+                      {item}
                     </span>
-                  </button>
-                ))}
+                  ))}
+                </section>
               </Link>
             </li>
           ))}
