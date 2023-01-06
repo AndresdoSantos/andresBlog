@@ -111,25 +111,34 @@ export default function Home({ posts }: ServerSideDataProps) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const { data } = await client.query({
-    query: gql`
-      query GetAllPosts {
-        posts {
-          createdBy {
-            name
+  const gqlResponse = await client
+    .query({
+      query: gql`
+        query GetAllPosts {
+          posts {
+            createdBy {
+              name
+            }
+            readingTime
+            tags
+            title
+            preview
+            slug
+            id
           }
-          readingTime
-          tags
-          title
-          preview
-          slug
-          id
         }
-      }
-    `,
-  })
+      `,
+    })
+    .then((res) => {
+      console.log(res)
+      return res
+    })
+    .catch((err) => {
+      console.log(err, 'error on your side')
+      return err
+    })
 
   return {
-    props: data,
+    props: gqlResponse ? gqlResponse.data : {},
   }
 }
