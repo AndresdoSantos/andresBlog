@@ -1,4 +1,4 @@
-import { white, zinc } from 'tailwindcss/colors'
+import { white } from 'tailwindcss/colors'
 
 export function DotsTree() {
   return (
