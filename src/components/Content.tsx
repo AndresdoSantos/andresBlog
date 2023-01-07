@@ -5,5 +5,9 @@ interface Props {
 }
 
 export function Content({ children }: Props) {
-  return <main className="max-w-5xl px-10 sm:px-0 sm:mx-auto">{children}</main>
+  return (
+    <main className="w-screen sm:max-w-5xl px-5 sm:px-0 m-0 sm:mx-auto">
+      {children}
+    </main>
+  )
 }

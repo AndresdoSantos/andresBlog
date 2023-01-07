@@ -34,26 +34,14 @@
   }
 
   pre {
-    @apply bg-zinc-100 dark:bg-zinc-800 p-5 rounded-xl w-full mb-10;
+    @apply bg-zinc-100 dark:bg-zinc-800 p-5 rounded-xl w-full mb-10 overflow-x-scroll break-words;
   }
 
   pre, code {
-    @apply bg-zinc-100 dark:bg-zinc-800;
+    @apply font-['DM_Mono'] bg-zinc-100 dark:bg-zinc-800;
   }
 
   code {
-    @apply font-['DM_Mono'] text-xs sm:text-sm bg-zinc-100 dark:bg-zinc-800 py-1 rounded-lg;
-  }
-
-  .toggle-root {
-    @apply w-11 h-7 rounded-full relative dark:bg-white bg-zinc-800
-  }
-
-  .toggle-thumb {
-    @apply block w-5 h-5 rounded-full bg-white dark:bg-zinc-800 transform duration-100 translate-x-1
-  }
-
-  .toggle-thumb[data-state="checked"] {
-    @apply translate-x-5 
+    @apply text-xs sm:text-sm bg-zinc-100 dark:bg-zinc-800 py-1 rounded-lg;
   }
 }

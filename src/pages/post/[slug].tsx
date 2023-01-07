@@ -65,16 +65,10 @@ export default function PostBySlug({ post }: Post) {
           <p>{post.preview}</p>
         </header>
 
-        <div className="flex items-center relative">
-          <button className="fixed left-20">Seta para esquerda</button>
-
-          <article
-            className="mt-10"
-            dangerouslySetInnerHTML={{ __html: post.content.html }}
-          />
-
-          <button className="fixed right-20">Seta para direita</button>
-        </div>
+        <article
+          className="mt-10"
+          dangerouslySetInnerHTML={{ __html: post.content.html }}
+        />
       </Content>
     </>
   )

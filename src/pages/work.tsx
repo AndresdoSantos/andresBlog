@@ -37,9 +37,6 @@ export default function Work({ work }: ServerSideDataProps) {
         <button className="transition-[:hover] duration-300 hover:text-white hover:bg-zinc-900 text-white bg-zinc-900 dark:bg-white text-xs font-medium p-3 border border-zinc-700 dark:text-zinc-900">
           DOWNLOAD MY CV
         </button>
-        <button className=" text-xs border-l-0 font-medium p-3 border border-zinc-700">
-          {`SEE MY WORK'S AND LEARNING'S`}
-        </button>
       </nav>
 
       <ul className="mt-10">
@@ -63,13 +60,13 @@ export default function Work({ work }: ServerSideDataProps) {
                     {responsability.title}
                   </span>
 
-                  <span className="text-sm ">{responsability.description}</span>
+                  <span className="text-sm">{responsability.description}</span>
 
-                  <section className="flex items-center mt-5">
+                  <section className="flex items-center mt-5 overflow-x-scroll sm:overflow-x-hidden">
                     {responsability.tags.map((item) => (
                       <span
                         key={item}
-                        className="first:rounded-l-lg last:border-none border-r dark:border-zinc-700/50 last:rounded-r-lg text-xs py-2 px-4 dark:bg-neutral-800 bg-zinc-100"
+                        className="first:rounded-l-lg last:border-none border-r dark:border-zinc-700/50 last:rounded-r-lg text-xs py-2 px-4 dark:bg-neutral-800 bg-zinc-100 whitespace-nowrap sm:whitespace-normal"
                       >
                         {item}
                       </span>

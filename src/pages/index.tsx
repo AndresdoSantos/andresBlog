@@ -4,12 +4,14 @@ import Head from 'next/head'
 import Link from 'next/link'
 import clsx from 'clsx'
 import { useRouter } from 'next/router'
+import { useState } from 'react'
 
 import { Content } from '../components/Content'
 import { ToggleTheme } from '../components/ToggleTheme'
+import { Logo } from '../components/Logo'
 
 import { client } from '../services/client'
-import { Logo } from '../components/Logo'
+import { Icon } from '../components/Icons/@index'
 
 export interface CreatedBy {
   name: string
@@ -29,6 +31,8 @@ export interface ServerSideDataProps {
 
 export default function Home({ posts }: ServerSideDataProps) {
   const { route } = useRouter()
+
+  const [menuIsOpen, setMenuIsOpen] = useState(false)
 
   return (
     <>
@@ -83,7 +87,7 @@ export default function Home({ posts }: ServerSideDataProps) {
           </section>
         </header>
 
-        <ul className="grid grid-cols-2 gap-5">
+        <ul className="grid grid-cols-1 gap-y-10 sm:gap-y-0 sm:grid-cols-2 sm:gap-5">
           {posts.map((post) => (
             <li key={post.id} className="before:content-['']">
               <Link href={encodeURI(`post/${post.slug}`)}>
@@ -105,6 +109,63 @@ export default function Home({ posts }: ServerSideDataProps) {
             </li>
           ))}
         </ul>
+
+        <button
+          className="flex items-center justify-center sm:hidden h-10 w-10 rounded-full left-1/2 -translate-x-1/2 fixed bottom-10 bg-zinc-800 z-50"
+          onClick={() => setMenuIsOpen((prev) => !prev)}
+        >
+          <Icon.DotsTree />
+        </button>
+
+        <section
+          className={clsx(
+            'absolute right-0 left-0 w-screen transition-[height] duration-300 flex flex-col items-center justify-center gap-y-10 bg-zinc-900',
+            {
+              'bottom-0 h-screen': menuIsOpen,
+              'top-0 h-0': !menuIsOpen,
+            },
+          )}
+        >
+          {menuIsOpen && (
+            <>
+              <Link
+                href="/"
+                className={clsx(
+                  'flex text-sm hover:text-zinc-900 dark:hover:text-zinc-200',
+                  {
+                    'dark:text-white text-zinc-900': route === '/',
+                  },
+                )}
+              >
+                CODE
+              </Link>
+
+              <Link
+                href="/work"
+                className={clsx(
+                  'flex text-sm hover:text-zinc-900 dark:hover:text-zinc-200',
+                  {
+                    'text-zinc-900': route === '/work',
+                  },
+                )}
+              >
+                WORK
+              </Link>
+
+              <Link
+                href="/learning"
+                className={clsx(
+                  'flex text-sm hover:text-zinc-900 dark:hover:text-zinc-200',
+                  {
+                    'text-zinc-900': route === '/work',
+                  },
+                )}
+              >
+                WHAT AM I STUDYING?
+              </Link>
+            </>
+          )}
+        </section>
       </Content>
     </>
   )
